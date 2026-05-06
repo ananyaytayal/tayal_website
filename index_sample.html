@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shri Laxmi Enterprise | Precision CNC Machining Since 1999</title>
+<meta name="description" content="Shri Laxmi Enterprise – ISO 9001:2015, IATF 16949 & ZED Gold certified precision CNC machining and turning experts since 1999.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C8960C;
+  --gold-light: #F0C040;
+  --gold-dim: #8B6508;
+  --steel: #1a1f2e;
+  --steel-mid: #232940;
+  --steel-light: #2e3650;
+  --chrome: #e8edf5;
+  --muted: #8892a4;
+  --white: #f5f7fa;
+  --danger: #e84141;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--steel);
+  color: var(--chrome);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9999;
+  transition: transform 0.15s ease;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9998;
+  transition: all 0.25s ease;
+  opacity: 0.6;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.4;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--steel); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 0 4vw;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 70px;
+  backdrop-filter: blur(20px);
+  background: rgba(26,31,46,0.85);
+  border-bottom: 1px solid rgba(200,150,12,0.15);
+  transition: all 0.4s ease;
+}
+nav.scrolled { height: 58px; background: rgba(26,31,46,0.97); }
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo span { color: var(--chrome); font-size: 1.1rem; letter-spacing: 2px; }
+.nav-logo::before {
+  content: '⬡';
+  color: var(--gold);
+  font-size: 1.4rem;
+  animation: spin-hex 8s linear infinite;
+}
+@keyframes spin-hex { to { transform: rotate(360deg); } }
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0; right: 0;
+  height: 1px; background: var(--gold);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-cta {
+  background: var(--gold);
+  color: var(--steel) !important;
+  padding: 8px 20px;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  font-size: 0.78rem !important;
+  border: none; cursor: pointer;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  transition: background 0.3s, transform 0.2s !important;
+}
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); transition: all 0.3s; }
+
+/* HERO */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 0 6vw;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 3D GRID BG */
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,150,12,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,150,12,0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(600px) rotateX(20deg) scale(1.3);
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+.hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(200,150,12,0.12) 0%, transparent 70%);
+  top: 50%; left: 60%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 680px; }
+.hero-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 12px;
+  animation: fade-in-up 0.8s ease forwards;
+}
+.hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: 3px;
+  color: var(--white);
+  animation: fade-in-up 0.9s 0.1s ease both;
+}
+.hero-title .gold { color: var(--gold); }
+.hero-title .outline {
+  -webkit-text-stroke: 1px var(--chrome);
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--muted);
+  font-weight: 400;
+  margin: 1.5rem 0 2.5rem;
+  line-height: 1.7;
+  max-width: 480px;
+  animation: fade-in-up 1s 0.2s ease both;
+}
+
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; animation: fade-in-up 1.1s 0.3s ease both; }
+.btn-primary {
+  background: var(--gold);
+  color: var(--steel);
+  padding: 14px 32px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  border: none; cursor: pointer;
+  text-decoration: none;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,150,12,0.4); }
+.btn-outline {
+  border: 1px solid rgba(200,150,12,0.5);
+  color: var(--gold);
+  padding: 14px 32px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.btn-outline:hover { background: rgba(200,150,12,0.1); border-color: var(--gold); }
+
+/* HERO 3D MACHINE */
+.hero-visual {
+  position: absolute; right: 4vw; top: 50%;
+  transform: translateY(-50%);
+  width: 420px; height: 420px;
+  z-index: 2;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(-50%) translateY(0px) rotateY(0deg); }
+  50% { transform: translateY(-50%) translateY(-18px) rotateY(5deg); }
+}
+
+.machine-3d {
+  width: 100%; height: 100%;
+  position: relative;
+}
+
+/* Animated CNC SVG */
+.cnc-ring {
+  animation: cnc-spin 3s linear infinite;
+  transform-origin: center;
+}
+.cnc-ring-2 { animation: cnc-spin 2s linear infinite reverse; transform-origin: center; }
+.cnc-pulse { animation: cnc-pulse 2s ease-in-out infinite; }
+@keyframes cnc-spin { to { transform: rotate(360deg); } }
+@keyframes cnc-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* STATS BAR */
+.stats-bar {
+  position: relative; z-index: 2;
+  background: var(--steel-mid);
+  border-top: 1px solid rgba(200,150,12,0.2);
+  border-bottom: 1px solid rgba(200,150,12,0.2);
+  padding: 1.5rem 6vw;
+  display: flex; gap: 3rem; flex-wrap: wrap;
+  justify-content: center;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem;
+  color: var(--gold);
+  line-height: 1;
+  display: block;
+}
+.stat-label {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* SECTIONS */
+section { padding: 6rem 6vw; position: relative; }
+.section-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-tag::before { content: '//'; opacity: 0.5; }
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  letter-spacing: 2px;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 1rem;
+}
+.section-title .accent { color: var(--gold); }
+
+/* ABOUT */
+#about { background: var(--steel-mid); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  margin-top: 3rem;
+}
+.about-text p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 1.2rem;
+}
+.about-text p strong { color: var(--chrome); }
+.about-badges {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+.badge {
+  border: 1px solid rgba(200,150,12,0.4);
+  padding: 6px 16px;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  color: var(--gold);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+}
+.timeline {
+  position: relative;
+  padding-left: 30px;
+}
+.timeline::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+.tl-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.6s ease;
+}
+.tl-item.visible { opacity: 1; transform: translateX(0); }
+.tl-item::before {
+  content: '';
+  position: absolute; left: -34px; top: 6px;
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--gold);
+}
+.tl-year {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+}
+.tl-desc { color: var(--muted); font-size: 0.95rem; }
+
+/* MACHINES / GALLERY */
+#gallery { background: var(--steel); }
+.machines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5px;
+  margin-top: 3rem;
+}
+.machine-card {
+  background: var(--steel-mid);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.machine-card.visible { opacity: 1; transform: translateY(0); }
+.machine-card:hover { transform: translateY(-4px) !important; }
+.machine-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+.machine-card:hover::before { transform: scaleX(1); }
+.machine-icon {
+  width: 60px; height: 60px;
+  border: 1px solid rgba(200,150,12,0.3);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.2rem;
+  font-size: 1.6rem;
+  position: relative;
+  overflow: hidden;
+}
+.machine-icon::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(200,150,12,0.05);
+}
+.machine-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 0.4rem;
+}
+.machine-spec {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 0.8rem;
+  display: flex; gap: 1rem; flex-wrap: wrap;
+}
+.spec-pill {
+  border: 1px solid rgba(200,150,12,0.25);
+  padding: 2px 10px;
+  font-size: 0.65rem;
+}
+.machine-desc { color: var(--muted); font-size: 0.92rem; line-height: 1.6; }
+.machine-num {
+  position: absolute; bottom: 1rem; right: 1.2rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
+  color: rgba(200,150,12,0.06);
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+/* QUALITY */
+#quality { background: var(--steel-mid); }
+.certs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+.cert-card {
+  border: 1px solid rgba(200,150,12,0.2);
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  opacity: 0; transform: translateY(20px);
+}
+.cert-card.visible { opacity: 1; transform: translateY(0); }
+.cert-card:hover { border-color: var(--gold); background: rgba(200,150,12,0.04); }
+.cert-icon {
+  font-size: 2.5rem; margin-bottom: 1rem;
+  display: block;
+}
+.cert-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+.cert-full { font-size: 0.8rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; }
+.cert-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+.cert-card::after {
+  content: '✓ CERTIFIED';
+  position: absolute; top: 1.2rem; right: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  border: 1px solid rgba(200,150,12,0.3);
+  padding: 2px 8px;
+}
+
+/* PRODUCTS */
+#products { background: var(--steel); }
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.product-card {
+  background: var(--steel-mid);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  opacity: 0; transform: translateY(30px);
+}
+.product-card.visible { opacity: 1; transform: translateY(0); }
+.product-card:hover { border-color: rgba(200,150,12,0.3); transform: translateY(-4px) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+.product-img {
+  height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(200,150,12,0.04), transparent);
+  border: 1px solid rgba(200,150,12,0.1);
+}
+.product-visual {
+  font-size: 4rem;
+  filter: grayscale(1) brightness(0.8);
+  transition: filter 0.3s;
+}
+.product-card:hover .product-visual { filter: grayscale(0) brightness(1); }
+.product-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+}
+.product-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.2rem; }
+.read-more {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid rgba(200,150,12,0.3);
+  padding-bottom: 2px;
+  transition: all 0.3s;
+}
+.read-more:hover { gap: 16px; border-color: var(--gold); }
+.product-tag {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--gold);
+}
+
+/* CONTACT */
+#contact { background: var(--steel-mid); }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  margin-top: 3rem;
+}
+.contact-info { }
+.contact-item {
+  display: flex; gap: 1.2rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.contact-icon {
+  width: 46px; height: 46px; flex-shrink: 0;
+  border: 1px solid rgba(200,150,12,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  color: var(--gold);
+}
+.contact-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.contact-val { color: var(--chrome); font-size: 1rem; font-weight: 500; }
+.contact-val a { color: var(--chrome); text-decoration: none; transition: color 0.3s; }
+.contact-val a:hover { color: var(--gold); }
+
+/* QUICK LINKS */
+.quick-links {
+  display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;
+}
+.quick-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 20px;
+  border: 1px solid rgba(200,150,12,0.3);
+  color: var(--chrome);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.quick-link::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(200,150,12,0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+.quick-link:hover::before { transform: translateX(0); }
+.quick-link:hover { border-color: var(--gold); color: var(--gold); }
+.quick-link.whatsapp { border-color: rgba(37,211,102,0.4); color: #25d366; }
+.quick-link.whatsapp::before { background: rgba(37,211,102,0.08); }
+.quick-link.whatsapp:hover { border-color: #25d366; }
+
+/* CONTACT FORM */
+.contact-form { }
+.form-group { margin-bottom: 1.5rem; }
+.form-label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.form-input, .form-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--chrome);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.3s;
+  resize: none;
+}
+.form-input:focus, .form-textarea:focus { border-color: var(--gold); background: rgba(200,150,12,0.04); }
+.form-textarea { min-height: 120px; }
+.form-submit {
+  background: var(--gold);
+  color: var(--steel);
+  padding: 14px 36px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  border: none; cursor: pointer;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: all 0.3s ease;
+  width: 100%;
+}
+.form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+/* FOOTER */
+footer {
+  background: #111520;
+  border-top: 1px solid rgba(200,150,12,0.15);
+  padding: 3rem 6vw 1.5rem;
+}
+.footer-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 1.5rem;
+}
+.footer-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+.footer-brand small {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--muted);
+  letter-spacing: 3px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.footer-links { display: flex; gap: 3rem; flex-wrap: wrap; }
+.footer-col h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.footer-col a {
+  display: block;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+}
+.footer-certbadges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.fcert {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--gold-dim);
+  border: 1px solid rgba(200,150,12,0.2);
+  padding: 2px 8px;
+  letter-spacing: 1px;
+}
+
+/* FLOATING ACTIONS */
+.float-actions {
+  position: fixed; right: 2rem; bottom: 2rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  z-index: 500;
+}
+.float-btn {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  position: relative;
+}
+.float-btn::before {
+  content: attr(data-tip);
+  position: absolute; right: 60px;
+  background: var(--steel-mid);
+  color: var(--chrome);
+  padding: 4px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.float-btn:hover::before { opacity: 1; }
+.float-wa { background: #25d366; color: #fff; }
+.float-wa:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(37,211,102,0.5); }
+.float-mail { background: var(--gold); color: var(--steel); }
+.float-mail:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(200,150,12,0.5); }
+
+/* FADE IN */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* PROGRESS LINE */
+.progress-line {
+  position: fixed; top: 70px; left: 0;
+  height: 2px; background: var(--gold);
+  z-index: 999; width: 0%;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px var(--gold);
+}
+
+/* SECTION DIVIDER */
+.divider {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.divider-line { flex: 1; height: 1px; background: rgba(200,150,12,0.2); }
+
+/* MOBILE NAV */
+.mobile-menu {
+  display: none;
+  position: fixed; inset: 0; top: 70px;
+  background: rgba(26,31,46,0.98);
+  backdrop-filter: blur(20px);
+  z-index: 999;
+  padding: 3rem 6vw;
+  flex-direction: column; gap: 2rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--chrome);
+  text-decoration: none;
+  letter-spacing: 3px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 1.2rem;
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero-visual { display: none; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .stats-bar { gap: 1.5rem; }
+  .hero-content { max-width: 100%; }
+}
+@media (max-width: 600px) {
+  section { padding: 4rem 5vw; }
+  .machines-grid { grid-template-columns: 1fr; gap: 1px; }
+  .certs-grid, .products-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 3rem; }
+  .float-actions { right: 1rem; bottom: 1rem; }
+}
+
+/* SCROLL REVEAL */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* MISSION BOX */
+.mission-box {
+  border: 1px solid rgba(200,150,12,0.25);
+  padding: 2rem;
+  position: relative;
+  margin-top: 2rem;
+  background: rgba(200,150,12,0.03);
+}
+.mission-box::before {
+  content: 'MISSION';
+  position: absolute; top: -9px; left: 1.5rem;
+  background: var(--steel-mid);
+  padding: 0 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+.mission-box p { color: var(--muted); font-size: 1rem; line-height: 1.8; font-style: italic; }
+.mission-box p strong { color: var(--gold); font-style: normal; }
+
+/* ANIMATED COUNTER */
+.counter { display: inline-block; }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- SCROLL PROGRESS -->
+<div class="progress-line" id="progressLine"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">SLE <span>ENTERPRISE</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Machines</a></li>
+    <li><a href="#quality">Quality</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#gallery" onclick="toggleMenu()">Machines</a>
+  <a href="#quality" onclick="toggleMenu()">Quality</a>
+  <a href="#products" onclick="toggleMenu()">Products</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Precision CNC Experts · Est. 1999</div>
+    <h1 class="hero-title">
+      SHRI<br>
+      <span class="gold">LAXMI</span><br>
+      <span class="outline">ENTERPRISE</span>
+    </h1>
+    <p class="hero-sub">ISO 9001:2015 · IATF 16949 · ZED Gold certified precision CNC machining and turning, delivering zero-defect components for over 25 years.</p>
+    <div class="hero-btns">
+      <a href="#gallery" class="btn-primary">Explore Machines</a>
+      <a href="#contact" class="btn-outline">Get a Quote</a>
+    </div>
+  </div>
+
+  <!-- 3D CNC Visual -->
+  <div class="hero-visual">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <defs>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#C8960C" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#C8960C" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="blur"><feGaussianBlur stdDeviation="3"/></filter>
+      </defs>
+      <!-- Glow -->
+      <circle cx="200" cy="200" r="180" fill="url(#glow)"/>
+      <!-- Outer ring -->
+      <g class="cnc-ring">
+        <circle cx="200" cy="200" r="160" fill="none" stroke="#C8960C" stroke-width="0.5" stroke-opacity="0.4"/>
+        <circle cx="200" cy="200" r="160" fill="none" stroke="#C8960C" stroke-width="1.5" stroke-dasharray="8 24" stroke-opacity="0.8"/>
+        <!-- Tick marks -->
+        <g stroke="#C8960C" stroke-width="1" stroke-opacity="0.5">
+          <line x1="200" y1="42" x2="200" y2="52"/>
+          <line x1="200" y1="348" x2="200" y2="358"/>
+          <line x1="42" y1="200" x2="52" y2="200"/>
+          <line x1="348" y1="200" x2="358" y2="200"/>
+        </g>
+      </g>
+      <!-- Middle ring -->
+      <g class="cnc-ring-2">
+        <circle cx="200" cy="200" r="120" fill="none" stroke="#C8960C" stroke-width="0.8" stroke-dasharray="4 8" stroke-opacity="0.5"/>
+        <circle cx="200" cy="200" r="120" fill="none" stroke="#8B6508" stroke-width="0.5" stroke-opacity="0.3"/>
+      </g>
+      <!-- Inner mechanism -->
+      <circle cx="200" cy="200" r="70" fill="#1a1f2e" stroke="#C8960C" stroke-width="1" stroke-opacity="0.6"/>
+      <circle cx="200" cy="200" r="50" fill="none" stroke="#C8960C" stroke-width="0.5" stroke-opacity="0.4"/>
+      <!-- Core -->
+      <circle cx="200" cy="200" r="20" fill="#C8960C" fill-opacity="0.15" stroke="#C8960C" stroke-width="1.5"/>
+      <circle cx="200" cy="200" r="6" fill="#C8960C" class="cnc-pulse"/>
+      <!-- Cross hairs -->
+      <line x1="200" y1="135" x2="200" y2="165" stroke="#C8960C" stroke-width="1" stroke-opacity="0.6"/>
+      <line x1="200" y1="235" x2="200" y2="265" stroke="#C8960C" stroke-width="1" stroke-opacity="0.6"/>
+      <line x1="135" y1="200" x2="165" y2="200" stroke="#C8960C" stroke-width="1" stroke-opacity="0.6"/>
+      <line x1="235" y1="200" x2="265" y2="200" stroke="#C8960C" stroke-width="1" stroke-opacity="0.6"/>
+      <!-- Hex bolt pattern -->
+      <g stroke="#C8960C" stroke-width="1" stroke-opacity="0.4" fill="none">
+        <polygon points="200,88 212,94 212,106 200,112 188,106 188,94"/>
+        <polygon points="200,288 212,294 212,306 200,312 188,306 188,294"/>
+        <polygon points="88,200 94,188 106,188 112,200 106,212 94,212"/>
+        <polygon points="288,200 294,188 306,188 312,200 306,212 294,212"/>
+      </g>
+      <!-- Dimension lines -->
+      <g stroke="#F0C040" stroke-width="0.5" stroke-opacity="0.3" stroke-dasharray="2 4">
+        <line x1="60" y1="200" x2="340" y2="200"/>
+        <line x1="200" y1="60" x2="200" y2="340"/>
+      </g>
+      <!-- Corner brackets -->
+      <g stroke="#C8960C" stroke-width="1" stroke-opacity="0.5" fill="none">
+        <path d="M 30 50 L 30 30 L 50 30"/>
+        <path d="M 370 50 L 370 30 L 350 30"/>
+        <path d="M 30 350 L 30 370 L 50 370"/>
+        <path d="M 370 350 L 370 370 L 350 370"/>
+      </g>
+      <!-- Labels -->
+      <text x="50" y="25" fill="#C8960C" font-family="JetBrains Mono, monospace" font-size="8" fill-opacity="0.6">Ø 300mm</text>
+      <text x="300" y="25" fill="#C8960C" font-family="JetBrains Mono, monospace" font-size="8" fill-opacity="0.6">L 600mm</text>
+      <text x="10" y="380" fill="#8B6508" font-family="JetBrains Mono, monospace" font-size="7" fill-opacity="0.5">SLE-CNC-PREC</text>
+      <text x="300" y="380" fill="#8B6508" font-family="JetBrains Mono, monospace" font-size="7" fill-opacity="0.5">REV.2024</text>
+    </svg>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num counter" data-target="25">0</span><span class="stat-num" style="font-size:1.6rem">+</span>
+    <span class="stat-label">Years of Precision</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num counter" data-target="5">0</span>
+    <span class="stat-label">CNC Machines</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num counter" data-target="3">0</span>
+    <span class="stat-label">Certifications</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num counter" data-target="6">0</span>
+    <span class="stat-label">Product Lines</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">0</span>
+    <span class="stat-label">Defect Policy</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="section-tag">Who We Are</div>
+    <div class="divider-line"></div>
+  </div>
+  <h2 class="section-title reveal">Precision Born in <span class="accent">1999</span></h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Shri Laxmi Enterprise was established in <strong>1999</strong> with a singular focus: delivering <strong>uncompromising precision</strong> in CNC machining and turning. For over 25 years, we have served as a trusted manufacturing partner to automotive OEMs, tier suppliers, and industrial clients.</p>
+      <p>Our state-of-the-art facility houses <strong>five high-performance CNC turning centers</strong>, each operated by skilled machinists committed to zero-defect production. Every component we manufacture undergoes rigorous in-process quality checks aligned with our ISO, IATF, and ZED Gold certifications.</p>
+      <p>From bearing cups to valve components, our product portfolio reflects a deep understanding of <strong>dimensional accuracy, material science, and surface integrity</strong>—capabilities built over decades of continuous improvement.</p>
+      <div class="about-badges">
+        <span class="badge">ISO 9001:2015</span>
+        <span class="badge">IATF 16949</span>
+        <span class="badge">ZED Gold</span>
+        <span class="badge">Est. 1999</span>
+      </div>
+      <div class="mission-box">
+        <p><strong>To deliver precision-engineered components</strong> that exceed client expectations through advanced CNC technology, skilled craftsmanship, and an unwavering commitment to zero-defect manufacturing.</p>
+      </div>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-year">1999</div>
+        <div class="tl-desc">Founded with a single CNC lathe and a vision for precision manufacturing excellence.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2005</div>
+        <div class="tl-desc">Expanded to multiple CNC turning centers including Daewoo Puma 300 for heavy-duty applications.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2012</div>
+        <div class="tl-desc">Achieved ISO 9001 certification, formalizing our quality management systems.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2018</div>
+        <div class="tl-desc">IATF 16949 certification attained, enabling direct supply to automotive OEMs and tier suppliers.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2022</div>
+        <div class="tl-desc">Awarded ZED Gold certification — zero defect, zero effect manufacturing standard.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2024+</div>
+        <div class="tl-desc">Continuous modernization with 5-axis capability and real-time SPC monitoring.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY / MACHINES -->
+<section id="gallery">
+  <div class="section-tag">Our Machinery</div>
+  <h2 class="section-title reveal">CNC <span class="accent">Arsenal</span></h2>
+  <p class="reveal" style="color:var(--muted);max-width:560px;margin-bottom:0;font-size:1.05rem">Five precision turning centers, each delivering industry-leading accuracy for complex geometries and tight tolerances.</p>
+  <div class="machines-grid" style="margin-top:3rem">
+
+    <div class="machine-card reveal">
+      <div class="machine-icon">⚙️</div>
+      <div class="machine-name">Daewoo Puma 300</div>
+      <div class="machine-spec">
+        <span class="spec-pill">Ø 300 mm</span>
+        <span class="spec-pill">L 600 mm</span>
+      </div>
+      <p class="machine-desc">High-performance CNC turning center designed for precision and heavy-duty cutting. Features a robust bed design, high-accuracy spindle, and advanced thermal compensation for consistent dimensional output.</p>
+      <div class="machine-num">01</div>
+    </div>
+
+    <div class="machine-card reveal">
+      <div class="machine-icon">🔩</div>
+      <div class="machine-name">Goodway CNC Lathe</div>
+      <div class="machine-spec">
+        <span class="spec-pill">Ø 250 mm</span>
+        <span class="spec-pill">L 450 mm</span>
+      </div>
+      <p class="machine-desc">Versatile slant-bed CNC lathe with exceptional rigidity. Ideal for medium-complexity turned parts requiring tight concentricity and superior surface finish across diverse materials.</p>
+      <div class="machine-num">02</div>
+    </div>
+
+    <div class="machine-card reveal">
+      <div class="machine-icon">🔧</div>
+      <div class="machine-name">Takisawa CNC</div>
+      <div class="machine-spec">
+        <span class="spec-pill">Ø 200 mm</span>
+        <span class="spec-pill">L 350 mm</span>
+      </div>
+      <p class="machine-desc">Japanese-engineered precision lathe renowned for its low-vibration spindle and high-speed turret indexing. Delivers micron-level accuracy for critical automotive sub-components.</p>
+      <div class="machine-num">03</div>
+    </div>
+
+    <div class="machine-card reveal">
+      <div class="machine-icon">🛠️</div>
+      <div class="machine-name">Harding CNC</div>
+      <div class="machine-spec">
+        <span class="spec-pill">Ø 200 mm</span>
+        <span class="spec-pill">L 300 mm</span>
+      </div>
+      <p class="machine-desc">American-built precision turning center with a legacy of reliability. Exceptional for short-run, high-accuracy components with complex profiles and tight diameter tolerances.</p>
+      <div class="machine-num">04</div>
+    </div>
+
+    <div class="machine-card reveal">
+      <div class="machine-icon">⚡</div>
+      <div class="machine-name">Ace Micromatic</div>
+      <div class="machine-spec">
+        <span class="spec-pill">Ø 220 mm</span>
+        <span class="spec-pill">L 400 mm</span>
+      </div>
+      <p class="machine-desc">Indian-manufactured high-rigidity CNC lathe optimized for high-volume production. Combines rapid cycle times with consistent dimensional output for mass-production turning applications.</p>
+      <div class="machine-num">05</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUALITY -->
+<section id="quality">
+  <div class="section-tag">Certifications</div>
+  <h2 class="section-title reveal">Quality <span class="accent">Standards</span></h2>
+  <p class="reveal" style="color:var(--muted);max-width:560px;margin-bottom:0;font-size:1.05rem">Every part leaves our facility backed by internationally recognized quality frameworks and in-process verification at every stage.</p>
+  <div class="certs-grid">
+    <div class="cert-card reveal">
+      <span class="cert-icon">🏆</span>
+      <div class="cert-name">ISO 9001:2015</div>
+      <div class="cert-full">Quality Management System</div>
+      <p class="cert-desc">Certified for consistent quality and precision in CNC machining and turning. Our QMS ensures every process — from raw material intake to final inspection — meets the highest international benchmarks.</p>
+    </div>
+    <div class="cert-card reveal">
+      <span class="cert-icon">🚗</span>
+      <div class="cert-name">IATF 16949</div>
+      <div class="cert-full">Automotive Quality Standard</div>
+      <p class="cert-desc">Ensuring rigorous standards for automotive tier suppliers and OEMs. This certification validates our ability to deliver components meeting the zero-defect requirements of the global automotive supply chain.</p>
+    </div>
+    <div class="cert-card reveal">
+      <span class="cert-icon">🌿</span>
+      <div class="cert-name">ZED Gold</div>
+      <div class="cert-full">Zero Defect Zero Effect</div>
+      <p class="cert-desc">Committed to zero-defect manufacturing and environmentally sustainable practices. ZED Gold represents our pledge to operate with minimal ecological impact while maintaining peak production quality.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-tag">What We Make</div>
+  <h2 class="section-title reveal">Product <span class="accent">Portfolio</span></h2>
+  <p class="reveal" style="color:var(--muted);max-width:560px;margin-bottom:0;font-size:1.05rem">Precision-turned components engineered for demanding applications across automotive, industrial, and flow-control sectors.</p>
+  <div class="products-grid">
+
+    <div class="product-card reveal">
+      <div class="product-tag"></div>
+      <div class="product-img"><div class="product-visual">🔘</div></div>
+      <div class="product-name">Bearing Cups</div>
+      <p class="product-desc">Precision-ground cups for high-load bearing assemblies. Manufactured to exact dimensional specifications with superior surface finish for optimal bearing seat performance.</p>
+      <a href="#contact" class="read-more">Enquire Now →</a>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-tag"></div>
+      <div class="product-img"><div class="product-visual">✳️</div></div>
+      <div class="product-name">Universal Joint Cross</div>
+      <p class="product-desc">High-strength cross components for drivetrain systems. Engineered for precision geometry and hardness consistency to deliver reliable torque transmission under dynamic loads.</p>
+      <a href="#contact" class="read-more">Enquire Now →</a>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-tag"></div>
+      <div class="product-img"><div class="product-visual">⭕</div></div>
+      <div class="product-name">Alloy Wheel Center Bush</div>
+      <p class="product-desc">Accurate bushings with tight concentricity control. Critical interface components between wheel hub and center bore, requiring exacting tolerances for vibration-free operation.</p>
+      <a href="#contact" class="read-more">Enquire Now →</a>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-tag"></div>
+      <div class="product-img"><div class="product-visual">🔩</div></div>
+      <div class="product-name">Crank Bush Insert</div>
+      <p class="product-desc">Durable inserts engineered for consistent wear performance. Designed to maintain dimensional stability under repeated load cycles in crankshaft and bearing interfaces.</p>
+      <a href="#contact" class="read-more">Enquire Now →</a>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-tag"></div>
+      <div class="product-img"><div class="product-visual">🔑</div></div>
+      <div class="product-name">Valve Child Parts</div>
+      <p class="product-desc">Critical sub-components for valve and flow systems. Manufactured with exceptional repeatability to ensure leak-free sealing performance across pressure and temperature cycles.</p>
+      <a href="#contact" class="read-more">Enquire Now →</a>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-tag"></div>
+      <div class="product-img"><div class="product-visual">⛓️</div></div>
+      <div class="product-name">Hammer Union Components</div>
+      <p class="product-desc">Precision-turned components for high-pressure hammer union assemblies. Critical sealing and connection parts built for rigorous oilfield and industrial pipeline applications.</p>
+      <a href="#contact" class="read-more">Enquire Now →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag">Get In Touch</div>
+  <h2 class="section-title reveal">Contact <span class="accent">Us</span></h2>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Address</div>
+          <div class="contact-val">Shri Laxmi Enterprise,<br>Industrial Area, Uttar Pradesh, India</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-val"><a href="mailto:shrilaxmienterprise@gmail.com">shrilaxmienterprise@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-val"><a href="tel:+918887373451">+91 88873 73451</a></div>
+        </div>
+      </div>
+
+      <div class="quick-links">
+        <a href="https://wa.me/918887373451?text=Greetings%20from%20Shri%20Laxmi%20Enterprise%21%20We%27d%20like%20to%20inquire%20about%20your%20CNC%20machining%20services." class="quick-link whatsapp" target="_blank">
+          💬 WhatsApp Us
+        </a>
+        <a href="mailto:shrilaxmienterprise@gmail.com" class="quick-link">
+          ✉️ Send Email
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="Full name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="you@company.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Company</label>
+        <input type="text" class="form-input" placeholder="Your company name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Tell us about your machining requirements, tolerances, material, quantity..."></textarea>
+      </div>
+      <button class="form-submit" onclick="submitForm()">Send Enquiry →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Shri Laxmi Enterprise<small>Precision CNC Machining Since 1999</small></div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <a href="#about">About</a>
+        <a href="#gallery">Machines</a>
+        <a href="#quality">Quality</a>
+        <a href="#products">Products</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#products">Bearing Cups</a>
+        <a href="#products">Universal Joint Cross</a>
+        <a href="#products">Alloy Wheel Bush</a>
+        <a href="#products">Crank Bush Insert</a>
+        <a href="#products">Valve Child Parts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+918887373451">+91 88873 73451</a>
+        <a href="mailto:shrilaxmienterprise@gmail.com">shrilaxmienterprise@gmail.com</a>
+        <a href="https://wa.me/918887373451?text=Hello%2C%20I%20would%20like%20to%20inquire%20about%20CNC%20machining%20services." target="_blank">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2024 SHRI LAXMI ENTERPRISE · ALL RIGHTS RESERVED</div>
+    <div class="footer-certbadges">
+      <span class="fcert">ISO 9001:2015</span>
+      <span class="fcert">IATF 16949</span>
+      <span class="fcert">ZED GOLD</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING ACTIONS -->
+<div class="float-actions">
+  <a href="https://wa.me/918887373451?text=Greetings%21%20I%27d%20like%20to%20inquire%20about%20your%20CNC%20machining%20services." class="float-btn float-wa" data-tip="WhatsApp Us" target="_blank">💬</a>
+  <a href="mailto:shrilaxmienterprise@gmail.com" class="float-btn float-mail" data-tip="Send Email">✉️</a>
+</div>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 5 + 'px';
+  cursor.style.top = my - 5 + 'px';
+});
+function animRing() {
+  rx += (mx - rx - 18) * 0.12;
+  ry += (my - ry - 18) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2.5)'; ring.style.transform = 'scale(0.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
+});
+
+// NAV SCROLL
+const navbar = document.getElementById('navbar');
+const progress = document.getElementById('progressLine');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  progress.style.width = pct + '%';
+});
+
+// MOBILE MENU
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// SCROLL REVEAL
+const reveals = document.querySelectorAll('.reveal, .tl-item, .machine-card, .cert-card, .product-card');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), (Array.from(reveals).indexOf(e.target) % 4) * 100);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => obs.observe(r));
+
+// COUNTER ANIMATION
+const counters = document.querySelectorAll('.counter');
+const cObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const target = +e.target.dataset.target;
+      let count = 0;
+      const inc = target / 40;
+      const timer = setInterval(() => {
+        count = Math.min(count + inc, target);
+        e.target.textContent = Math.floor(count);
+        if (count >= target) clearInterval(timer);
+      }, 40);
+      cObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => cObs.observe(c));
+
+// FORM SUBMIT
+function submitForm() {
+  const name = document.querySelector('.form-input').value;
+  if (!name) { alert('Please fill in your name.'); return; }
+  const msg = encodeURIComponent(`Hello, my name is ${name}. I'd like to inquire about your CNC machining services.`);
+  window.open(`mailto:shrilaxmienterprise@gmail.com?subject=CNC Machining Enquiry&body=${msg}`);
+}
+
+// SMOOTH ACTIVE NAV
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : '';
+  });
+});
+</script>
+</body>
+</html>
