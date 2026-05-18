@@ -120,7 +120,7 @@ export function GlobalEffects() {
       <div className="fixed right-6 bottom-6 flex flex-col gap-3 z-40">
         {/* WhatsApp */}
         <a
-          href="https://wa.me/1234567890?text=Hello%20Shri%20Laxmi%20Enterprise%2C%20I%20would%20like%20to%20inquire%20about%20your%20services"
+          href="https://wa.me/8887373451?text=Hello%20Shri%20Laxmi%20Enterprise%2C%20I%20would%20like%20to%20inquire%20about%20your%20services"
           target="_blank"
           rel="noopener noreferrer"
           className="w-12 h-12 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
