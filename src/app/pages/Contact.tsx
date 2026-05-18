@@ -8,7 +8,7 @@ export function Contact() {
   const phone = "8887373451";
   const whatsappMsg = "Greetings to Shri Laxmi Enterprise! We'd like to inquire about your CNC machining services.";
 
-  const whatsappUrl = `https://wa.me/91${phone}?text=${encodeURIComponent(whatsappMsg)}`;
+  const whatsappUrl = `https://wa.me/918887373451?text=${encodeURIComponent(whatsappMsg)}`;
   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent("Inquiry for CNC Machining Services")}`;
 
   return (
